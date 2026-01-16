@@ -1,0 +1,56 @@
+﻿@model List<lab1.Models.Order>
+
+@{
+    ViewData["Title"] = "Các Đơn Hàng Đã Đặt";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <p>Chưa có đơn hàng nào được đặt.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ngày Đặt Hàng</th>
+                <th>Trạng Thái</th>
+                <th>Tổng Giá</th>
+                <th>Hành Động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>@order.Id</td>
+                    <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@order.Status</td>
+                    <td>@order.TotalPrice.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                    <td>
+                        <!-- Cập nhật trạng thái -->
+                        <form method="post" asp-action="UpdateStatus" asp-route-id="@order.Id" asp-route-status="Đang Vận Chuyển" style="display:inline;">
+                            <button type="submit" class="btn btn-custom-shipping">Đang Vận Chuyển</button>
+                        </form>
+                        <form method="post" asp-action="UpdateStatus" asp-route-id="@order.Id" asp-route-status="Giao Hàng Thành Công" style="display:inline;">
+                            <button type="submit" class="btn btn-custom-success">Đã Giao Hàng</button>
+                        </form>
+                        <form method="post" asp-action="UpdateStatus" asp-route-id="@order.Id" asp-route-status="Đã Hủy" style="display:inline;">
+                            <button type="submit" class="btn btn-custom-cancel">Hủy Đơn Hàng</button>
+                        </form>
+                        <!-- Xóa đơn hàng -->
+                        <form method="post" asp-action="DeleteOrder" asp-route-id="@order.Id" onsubmit="return confirm('Bạn có chắc muốn xóa đơn hàng này không?');" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Xóa</button>
+                        </form>
+
+
+
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

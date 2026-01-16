@@ -1,0 +1,432 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ProductManagement</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ProductManagement.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    
+    
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <div class="container">
+                <!-- Thay chữ  bằng logo -->
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    <img src="/images/shopeefoodvn.png" alt="Logo" style="height: 40px;">
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                
+
+                <!-- đã xóa  -->
+
+                <!-- đã xóa  -->
+
+               
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <button class="btn btn-custom-logout" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng xuất</button>
+                            </li>
+
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">Đăng nhập</button>
+                            </li>
+                        }
+                    </ul>
+
+                </div>
+
+            <label class="theme-switch">
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider">
+                    <span class="icon" id="theme-icon">🌞</span>
+                </span>
+            </label>
+
+            <!-- Phần setting -->
+            <div class="settings-container">
+                <button id="settingsBtn" class="settings-btn">
+                    <i data-lucide="settings"></i>
+                </button>
+
+                <div id="settingsMenu" class="settings-dropdown">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="dropdown-item" asp-controller="Admin" asp-action="ManageAccounts">
+                            <i data-lucide="user"></i> Đây là tài khoản vip
+                        </a>
+                        <a class="dropdown-item" asp-controller="Product" asp-action="Index">
+                            <i data-lucide="box"></i> Quản lý sản phẩm
+                        </a>
+                        <a class="dropdown-item" asp-controller="Category" asp-action="Index">
+                            <i data-lucide="list"></i> Quản lý danh mục
+                        </a>
+                        <a class="dropdown-item" asp-controller="AdminOrder" asp-action="Index">
+                            <i data-lucide="shopping-bag"></i> Quản lý đơn hàng
+                        </a>
+                    }
+
+                    <!-- Các nút dành cho tất cả user -->
+                    <a class="dropdown-item" asp-controller="Order" asp-action="Index">
+                        <i data-lucide="receipt"></i> Đơn hàng của tôi
+                    </a>
+                    <a class="dropdown-item" asp-controller="Cart" asp-action="Index">
+                        <i data-lucide="shopping-cart"></i> Giỏ hàng
+                    </a>
+                </div>
+            </div>
+            </div>
+        </nav>
+
+        <div class='CustomerSupport'>
+            <ul>
+                <li><a href="https://www.facebook.com/Huy.Support.02" target="_blank"><img src="~/images/fbsquare.png" alt="Facebook" /></a></li>
+                <li><a href="https://zalo.me/0397180247" target="_blank"><img src="~/images/zalo.png" alt="Zalo" /></a></li>
+                <li><a href="https://www.facebook.com/messages/t/1834050343" target="_blank"><img src="~/images/messenger.png" alt="Messenger" /></a></li>
+
+            </ul>
+        </div>
+        
+    </header>
+  
+
+   
+
+    <div class="container mt-4">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Nút mở chat -->
+    <button id="chat-toggle">
+        💬
+    </button>
+
+    <!-- Hộp chat -->
+    <div id="chat-box">
+        <div class="chat-header">
+            <span>Chat với chúng tôi</span>
+            <button id="close-chat">X</button>
+        </div>
+        <div id="chat-messages"></div>
+        <input type="text" id="chat-text" placeholder="Nhập tin nhắn...">
+        <button id="send-chat">Gửi</button>
+    </div>
+
+
+
+
+
+    <footer class="bg-light py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- Cột 1: Sản phẩm -->
+                <div class="col-md-3">
+                    <h5 class="fw-bold">SẢN PHẨM</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">Thực Phẩm Lạnh</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Thực Phẩm Ăn liền</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Chế biến Sẵn</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cột 2: Dịch vụ -->
+                <div class="col-md-3">
+                    <h5 class="fw-bold">DỊCH VỤ</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">Dịch vụ sau bán hàng</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Phụ kiện</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Chăm sóc khách hàng</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cột 3: Chính sách -->
+                <div class="col-md-3">
+                    <h5 class="fw-bold">CHÍNH SÁCH</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">Chính sách Thanh toán</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Chính sách Bảo mật</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Chính sách Giao nhận - Vận chuyển</a></li>
+                    </ul>
+                </div>
+
+                <!-- Cột 4: Liên hệ -->
+                <div class="col-md-3">
+                    <h5 class="fw-bold">LIÊN HỆ VỚI CHÚNG TÔI</h5>
+                    <p>Hotline Kinh doanh: 0123456789</p>
+                    <p>Hotline Dịch vụ: 0123456789</p>
+                    <p>Email: <a href="mailto:nguyenquochuyc7@gmail.com" class="text-dark">nguyenquochuyc7@gmail.com</a></p>
+                    <!-- Mạng xã hội -->
+                    <div class="d-flex">
+                        <a href="#" class="me-3"><i class="fab fa-facebook fa-2x text-primary"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-youtube fa-2x text-danger"></i></a>
+                        <a href="#" class="me-3"><i class="fab fa-zalo fa-2x text-info"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row mt-4">
+                <!-- Cột 1: Google Maps -->
+                <div class="col-md-6">
+                    <h5 class="fw-bold">ĐỊA CHỈ CÔNG TY</h5>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.5127608586993!2d106.66337407585815!3d10.773374989367567!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752edfccb87fef%3A0xa6479f0d260e4d68!2zMTIzIMSQLiBOZ3V54buFbiBDaGluaCwgUGjGsOG7nW5nIDUsIFF14bqtbiAxLCBIw6AgTuG7mWkgMTIxMDAsIFZpZXRuYW0!5e0!3m2!1svi!2s!4v1640100000000" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+
+                <!-- Cột 2: Đăng ký nhận tin -->
+                <!-- Cột 2: Đăng ký nhận tin -->
+                <div class="col-md-6">
+                    <h5 class="fw-bold text-primary">ĐĂNG KÝ NHẬN TIN</h5>
+                    <p><a href="https://shopee.vn/web" target="_blank" class="text-decoration-none text-primary">Ấn vào đây để tải ứng dụng của chúng tôi</a></p>
+                
+                    <p class="text-muted">Nhập email của bạn để nhận tin tức mới nhất từ chúng tôi.</p>
+
+                    <!-- Thông báo -->
+                    <div id="subscribeMessage" class="alert d-none"></div>
+
+                    <form id="subscribeForm">
+                        <div class="input-group">
+                            <input type="email" id="emailInput" class="form-control rounded-start" placeholder="Nhập email của bạn" required>
+                            <button id="subscribeBtn" class="btn btn-primary rounded-end">Đăng ký</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <hr>
+
+
+
+
+            <!-- Chơi game khủng long -->
+            <div class="container mt-4">
+                <h2 class="text-center">Chơi game khủng long</h2>
+                <p class="text-center text-muted">💡 Nếu bạn đang chờ đơn hàng trong khi rảnh bạn có thể vào chơi!</p>
+
+                <div class="game-container">
+                    <iframe class="game-frame" src="https://chromedino.com/"></iframe>
+                </div>
+            </div>
+
+            <!-- Flappy Bird -->
+            <div class="container mt-5">
+                <h2 class="text-center">Muốn khó hơn thì xuống đây</h2>
+                
+
+                <div class="game-container">
+                    <canvas id="flappyCanvas"></canvas>
+                </div>
+            </div>
+
+            <script src="~/js/flappyBird.js"></script>
+            <!-- Thông tin bản quyền -->
+            <div class="text-center mt-3">
+                <p class="mb-0">&copy; 2025 Công Ty TNHH DEVBYHUY. Mọi quyền được bảo lưu.</p>
+                <p><a href="#" class="text-dark text-decoration-none">Điều khoản sử dụng</a> | <a href="#" class="text-dark text-decoration-none">Chính sách bảo mật</a></p>
+                huytrumcoder - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </div>
+                   
+    </footer>
+
+
+    <h2 class="section-title">Đánh giá và Bài Báo về Shopee Food</h2>
+
+    <div class="articles-container">
+        <div class="article-card">
+            <img src="/images/bao1.jpg" alt="ShopeeFood 2023" class="article-image">
+            <div class="article-content">
+                <h3 class="article-title">
+                    <a href="https://thanhnien.vn/shopeefood-tang-truong-an-tuong-trong-nam-2023-185231226150903335.htm" target="_blank">ShopeeFood Tăng Trưởng Ấn Tượng trong Năm 2023</a>
+                </h3>
+                <p class="article-description">Trang báo Thanh Niên đã có những đánh giá tích cực về sự phát triển mạnh mẽ của ShopeeFood trong năm 2023.</p>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <img src="/images/bao2.jpg" alt="ShopeeFood 2023" class="article-image">
+            <div class="article-content">
+                <h3 class="article-title">
+                    <a href="https://vtv.vn/cong-nghe/shopeefood-thau-hieu-hanh-vi-dat-mon-cua-nguoi-dung-nho-ai-20240716160805121.htm" target="_blank">ShopeeFood áp dụng AI để cá nhân hóa trải nghiệm người dùng</a>
+                </h3>
+                <p class="article-description">VTV đưa tin về việc ShopeeFood sử dụng trí tuệ nhân tạo để nâng cao trải nghiệm người dùng và cải thiện hiệu quả vận hành.</p>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <img src="/images/bao3.jpg" alt="ShopeeFood 2023" class="article-image">
+            <div class="article-content">
+                <h3 class="article-title">
+                    <a href="https://tintuc.zonecongnghe.com/2023/12/shopeefood-ghi-nhan-nhung-thanh-tuu-ang.html" target="_blank">ShopeeFood ghi nhận những thành tựu ấn tượng trong năm 2023</a>
+                </h3>
+                <p class="article-description">TechZone đánh giá ShopeeFood đã có những bước tiến lớn trong việc mở rộng và nâng cao dịch vụ.</p>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <img src="/images/bao4.jpg" alt="ShopeeFood 2023" class="article-image">
+            <div class="article-content">
+                <h3 class="article-title">
+                    <a href="https://www.sggp.org.vn/shopeefood-khep-lai-2023-voi-nhieu-cot-moc-tang-truong-an-tuong-post720216.html?utm_source=chatgpt.com" target="_blank">ShopeeFood nhận thành tựu lớn trong Quý IV 2023 và các xu hướng mới</a>
+                </h3>
+                <p class="article-description">Báo CafeBiz đã có những báo cáo chi tiết về sự tăng trưởng mạnh mẽ của ShopeeFood trong Quý IV 2023 và những xu hướng mới trong ngành giao đồ ăn.</p>
+            </div>
+        </div>
+
+        <div class="article-card">
+            <img src="/images/bao5.jpg" alt="ShopeeFood 2023" class="article-image">
+            <div class="article-content">
+                <h3 class="article-title">
+                    <a href="https://www.vietnamnet.vn/vn/kinh-doanh/san-pham-dich-vu/shopeefood-ghi-nhan-khoi-sac-tai-thi-truong-viet-nam-2023-2131441.html" target="_blank">ShopeeFood ghi nhận khởi sắc tại thị trường Việt Nam 2023</a>
+                </h3>
+                <p class="article-description">VietnamNet đã đưa tin về sự thành công của ShopeeFood khi tiếp tục vươn lên mạnh mẽ trong thị trường giao đồ ăn tại Việt Nam trong năm 2023.</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Đăng nhập</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+                       document.addEventListener("DOMContentLoaded", function () {
+            const themeToggle = document.getElementById("theme-toggle");
+            const themeIcon = document.getElementById("theme-icon");
+
+            function updateTheme() {
+                if (localStorage.getItem("theme") === "dark") {
+                    document.body.classList.add("dark-theme");
+                    themeToggle.checked = true;
+                    themeIcon.innerText = "🌙"; // Mặt trăng
+                } else {
+                    document.body.classList.remove("dark-theme");
+                    themeToggle.checked = false;
+                    themeIcon.innerText = "🌞"; // Mặt trời
+                }
+            }
+
+            themeToggle.addEventListener("change", function () {
+                document.body.classList.toggle("dark-theme");
+                const isDark = document.body.classList.contains("dark-theme");
+                localStorage.setItem("theme", isDark ? "dark" : "light");
+                themeIcon.innerText = isDark ? "🌙" : "🌞"; // Đổi icon theo trạng thái
+            });
+
+            updateTheme();
+        });
+
+
+
+    </script>
+
+
+
+
+
+
+    <div id="flappy-bird-container">
+        <canvas id="flappyCanvas"></canvas>
+    </div>
+    <script src="~/js/flappyBird.js"></script>
+    <!-- Script kích hoạt Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const settingsContainer = document.querySelector(".settings-container");
+
+            settingsContainer.addEventListener("mouseenter", () => {
+                settingsContainer.classList.add("show");
+            });
+
+            settingsContainer.addEventListener("mouseleave", () => {
+                settingsContainer.classList.remove("show");
+            });
+
+            // Kích hoạt Lucide Icons
+            lucide.createIcons();
+        });
+    </script>
+
+    <link rel="stylesheet" href="~/css/chat.css">
+    <script src="~/js/chat.js"></script>
+
+
+    <!-- gửi maikl -->
+    <script>
+        document.getElementById("subscribeBtn").addEventListener("click", function () {
+            const email = document.getElementById("emailInput").value;
+            if (!email) {
+                alert("Vui lòng nhập email!");
+                return;
+            }
+
+            fetch("/api/subscribe", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: email })
+            })
+            .then(response => response.json())
+            .then(data => alert(data.message))
+            .catch(error => console.error("Lỗi:", error));
+        });
+    </script>
+
+    
+
+</body> 
+
+</html>

@@ -1,0 +1,79 @@
+﻿@model lab1.Models.Order
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "Chi Tiết Đơn Hàng";
+}
+
+<h1 class="mb-4 text-primary">Chi Tiết Đơn Hàng</h1>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (Model == null)
+{
+    <div class="alert alert-danger">Không tìm thấy đơn hàng.</div>
+}
+else
+{
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3>Đơn Hàng #@Model.Id</h3>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Người Đặt: </strong>@Model.FullName</p>
+                    <p><strong>Địa Chỉ: </strong>@Model.Address</p>
+                    <p><strong>Số Điện Thoại: </strong>@Model.PhoneNumber</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Ngày Đặt: </strong>@Model.OrderDate.ToString("dd/MM/yyyy HH:mm")</p>
+                    <p><strong>Tổng Tiền: </strong>@Model.TotalPrice.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</p>
+                    <p><strong>Trạng Thái: </strong><span class="badge bg-success">@Model.Status</span></p>
+                </div>
+            </div>
+
+            <h4 class="mt-4 text-secondary">Chi Tiết Sản Phẩm</h4>
+            @if (Model.OrderItems == null || !Model.OrderItems.Any())
+            {
+                <div class="alert alert-warning">Không có sản phẩm trong đơn hàng.</div>
+            }
+            else
+            {
+                <table class="table table-bordered">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Hình Ảnh</th>
+                            <th>Sản Phẩm</th>
+                            <th>Số Lượng</th>
+                            <th>Giá</th>
+                            <th>Tổng</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.OrderItems)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@item.Product?.ImageUrl" alt="@item.Product?.Name" width="60" height="60" style="border-radius: 5px;">
+                                </td>
+                                <td>@(item.Product?.Name ?? "Không xác định")</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Price.ToString("C0", new System.Globalization.CultureInfo("vi-VN"))</td>
+                                <td>@((item.Quantity * item.Price).ToString("C0", new System.Globalization.CultureInfo("vi-VN")))</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+}
+
+<a asp-action="Index" asp-controller="Order" class="btn btn-primary mt-4">Quay Lại Đơn Hàng</a>

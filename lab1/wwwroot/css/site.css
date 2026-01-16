@@ -1,0 +1,776 @@
+﻿body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.card {
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+.card-header {
+    background-color: #2c3e50;
+    color: white;
+    border-radius: 12px 12px 0 0;
+    font-weight: bold;
+    text-align: center;
+    padding: 15px;
+}
+
+
+.btn-primary {
+    background-color: #2c3e50;
+    border-color: #2c3e50;
+    transition: all 0.3s ease-in-out;
+}
+
+    .btn-primary:hover {
+        background-color: #233240;
+        border-color: #233240;
+        transform: scale(1.05);
+    }
+
+    .btn-primary:active {
+        transform: scale(0.95);
+    }
+
+.table-responsive {
+    overflow-x: auto;
+    border-radius: 10px;
+}
+
+img {
+    transition: transform 0.3s ease-in-out;
+}
+
+    img:hover {
+        transform: scale(1.05);
+    }
+
+/* Định vị icon ở góc phải dưới màn hình */
+.CustomerSupport {
+    position: fixed;
+    right: 20px; /* Căn sát mép phải */
+    bottom: 20px; /* Căn sát mép dưới */
+    display: flex;
+    flex-direction: column-reverse; /* Đảo chiều icon từ dưới lên */
+    align-items: center;
+    gap: 30px; /* Khoảng cách giữa các icon */
+    opacity: 0;
+    transform: translateY(50px);
+    animation: fadeInSlide 0.8s ease-out forwards;
+    
+}
+
+    /* Xóa margin/padding mặc định */
+    .CustomerSupport ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .CustomerSupport li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Tạo hiệu ứng bo tròn + bóng đổ */
+    .CustomerSupport img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+        opacity: 0;
+        transform: scale(0.8);
+        animation: popIn 0.5s ease-out forwards;
+    }
+
+    /* Thêm hiệu ứng lần lượt xuất hiện */
+    .CustomerSupport li:nth-child(1) img {
+        animation-delay: 0.2s;
+    }
+
+    .CustomerSupport li:nth-child(2) img {
+        animation-delay: 0.4s;
+    }
+
+    .CustomerSupport li:nth-child(3) img {
+        animation-delay: 0.6s;
+    }
+
+    /* Hiệu ứng hover: Phóng to nhẹ + sáng bóng */
+    .CustomerSupport img:hover {
+        transform: scale(1.15) rotate(5deg);
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+        filter: brightness(1.2);
+    }
+
+/* Hiệu ứng trượt vào từ dưới */
+@keyframes fadeInSlide {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hiệu ứng xuất hiện mượt mà */
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+/* Thay đổi màu thanh header */
+.navbar {
+    background-color: white !important; /* Đổi màu nền sang trắng */
+    color: black !important; /* Đổi màu chữ thành đen */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Thêm bóng cho header */
+}
+
+    /* Cập nhật màu chữ của các thành phần bên trong */
+    .navbar a, .navbar button {
+        color: black !important;
+    }
+/* Điều chỉnh logo */
+.navbar-logo {
+    width: 50px; /* Điều chỉnh kích thước logo */
+    height: auto;
+    margin-right: 10px; /* Tạo khoảng cách giữa logo và chữ */
+}
+body.light-theme {
+    background-color: white;
+    color: black;
+}
+
+body.dark-theme {
+    background-color: black;
+    color: white;
+}
+body.light-theme {
+    background-color: white;
+    color: black;
+}
+
+body.dark-theme {
+    background-color: black;
+    color: white;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+    background-color: #ddd;
+    color: #333;
+}
+
+/* Chế độ tối cho toàn bộ trang */
+.dark-theme {
+    background-color: #121212;
+    color: white;
+}
+
+    /* Chế độ tối cho Footer */
+    .dark-theme footer {
+        background-color: #1f1f1f !important;
+        color: white !important;
+    }
+
+        /* Chế độ tối cho chữ trong footer */
+        .dark-theme footer a {
+            color: #ffcc00 !important; /* Màu chữ sáng hơn để dễ đọc */
+        }
+
+    /* Chế độ tối cho đường phân cách */
+    .dark-theme hr {
+        border-color: #666 !important;
+    }
+.btn-custom-success {
+    background-color: white !important; /* Nền trắng */
+    color: black !important; /* Chữ đen */
+    border: 1px solid black !important; /* Viền đen */
+}
+
+    .btn-custom-success:hover {
+        background-color: #4CAF50 !important; /* Xanh tươi khi hover */
+        color: white !important; /* Chữ trắng khi hover 2 phần dành cho nút đã giao hàng */ 
+    }
+
+/* Nút "Đang Vận Chuyển" */
+.btn-custom-shipping {
+    background-color: white !important; /* Nền trắng */
+    color: black !important; /* Chữ đen */
+    border: 1px solid black !important; /* Viền đen */
+}
+
+    .btn-custom-shipping:hover {
+        background-color: #FF9800 !important; /* Nền cam khi hover */
+        color: white !important; /* Chữ trắng khi hover */
+    }
+
+/* Nút "Hủy Đơn Hàng" */
+.btn-custom-cancel {
+    background-color: white !important; /* Nền trắng */
+    color: black !important; /* Chữ đen */
+    border: 1px solid black !important; /* Viền đen */
+}
+
+    .btn-custom-cancel:hover {
+        background-color: red !important; /* Nền đỏ khi hover */
+        color: white !important; /* Chữ trắng khi hover */
+    }
+/* Nút "Thanh toán" */
+.btn-custom-checkout {
+    background-color: white !important; /* Nền trắng */
+    color: black !important; /* Chữ đen */
+    border: 1px solid black !important; /* Viền đen */
+}
+
+    .btn-custom-checkout:hover {
+        background-color: green !important; /* Nền xanh khi hover */
+        color: white !important; /* Chữ trắng khi hover */
+    }
+
+/* Nút "Clear Giỏ Hàng" */
+.btn-custom-clear {
+    background-color: white !important; /* Nền trắng */
+    color: black !important; /* Chữ đen */
+    border: 1px solid black !important; /* Viền đen */
+}
+
+    .btn-custom-clear:hover {
+        background-color: red !important; /* Nền đỏ khi hover */
+        color: white !important; /* Chữ trắng khi hover */
+    }
+/* Nút "Xóa" */
+.btn-custom-remove {
+    background-color: white !important; /* Nền trắng */
+    color: black !important; /* Chữ đen */
+    border: 1px solid black !important; /* Viền đen */
+}
+
+    .btn-custom-remove:hover {
+        background-color: red !important; /* Nền đỏ khi hover */
+        color: white !important; /* Chữ trắng khi hover */
+    }
+/* Nút "Đăng xuất" */
+.btn-custom-logout {
+    background-color: white !important; /* Nền trắng */
+    color: black !important; /* Chữ đen */
+    border: 1px solid black !important; /* Viền đen */
+    transition: all 0.3s ease-in-out; /* Hiệu ứng mượt */
+}
+
+    .btn-custom-logout:hover {
+        background-color: red !important; /* Nền đỏ khi hover */
+        color: white !important; /* Chữ trắng khi hover */
+        transform: scale(1.05); /* Hiệu ứng phóng to nhẹ */
+    }
+
+    /* Hiệu ứng rung khi hover */
+    .btn-custom-logout:active {
+        animation: shake 0.2s ease-in-out;
+    }
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-2px);
+    }
+
+    50% {
+        transform: translateX(2px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+/* css của phần chọn thanh toán*/
+.btn-group .btn {
+    border: 1px solid black !important;
+    color: black !important;
+    background-color: white !important;
+}
+
+    .btn-group .btn.active,
+    .btn-group .btn:hover {
+        background-color: black !important;
+        color: white !important;
+    }
+/* màu nút xem oder*/
+.btn-custom-view {
+    color: black !important; /* Chữ đen */
+    border: 1px solid black !important; /* Viền đen */
+    background-color: white !important; /* Nền trắng mặc định */
+    transition: 0.3s;
+}
+
+    .btn-custom-view:hover {
+        background-color: #4CAF50 !important; /* Xanh tươi khi hover */
+        color: white !important; /* Chữ trắng khi hover */
+    }
+
+
+.settings-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    left: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    min-width: 180px;
+    z-index: 1000;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    color: black;
+    text-decoration: none;
+    transition: background 0.3s ease;
+}
+
+    .dropdown-item:hover {
+        background: #f0f0f0;
+        border-radius: 5px;
+    }
+
+/* Bọc cả nút & menu vào một phần tử chung */
+.settings-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Định dạng nút cài đặt */
+.settings-btn {
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+    /* Xoay icon khi hover */
+    .settings-btn:hover {
+        transform: rotate(90deg);
+    }
+
+/* Menu dropdown */
+.settings-dropdown {
+    position: absolute;
+    right: 0; /* Canh sát lề phải */
+    top: 40px; /* Cách nút một khoảng nhỏ */
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: 220px;
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+    /* Căn chỉnh icon và chữ */
+    .settings-dropdown a {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        text-decoration: none;
+        color: #333;
+        transition: background 0.3s ease;
+    }
+
+        .settings-dropdown a i {
+            margin-right: 8px;
+        }
+
+/* Hiển thị menu khi container được hover */
+.settings-container:hover .settings-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.theme-toggle-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+    .theme-toggle-btn:hover {
+        transform: rotate(20deg);
+    }
+/* Hiển thị menu khi container được hover */
+
+
+/* Định dạng nút gạt */
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+    /* Ẩn checkbox */
+    .theme-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+/* Thanh trượt */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ddd;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+    /* Hình tròn di chuyển */
+    .slider::before {
+        position: absolute;
+        content: "";
+        height: 24px;
+        width: 24px;
+        left: 4px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+    }
+
+/* Biểu tượng mặt trời & mặt trăng */
+.icon {
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    transform: translateY(-50%);
+    font-size: 18px;
+    transition: 0.4s;
+}
+
+/* Khi bật chế độ tối */
+input:checked + .slider {
+    background-color: #333;
+}
+
+    input:checked + .slider::before {
+        transform: translateX(30px);
+    }
+
+    /* Đổi icon thành mặt trăng khi bật dark mode */
+    input:checked + .slider .icon {
+        left: 35px;
+        content: "🌙";
+    }
+
+
+
+.game-container {
+    width: 100vw; /* Chiếm toàn bộ chiều rộng trang */
+    max-width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.game-frame {
+    width: 100%; /* Full chiều rộng */
+    max-width: 1200px; /* Giới hạn kích thước tối đa */
+    height: 500px; /* Điều chỉnh chiều cao game */
+    border: none;
+}
+
+#flappyCanvas {
+    width: 100%;
+    max-width: 1200px;
+    height: 500px;
+}
+
+/* Chatbox Container - Luôn cố định ở góc trái */
+#chat-container {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+/* Nút tròn mở chat */
+#chat-toggle {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 50px;
+    height: 50px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s;
+    z-index: 1000;
+}
+
+    #chat-toggle:hover {
+        background-color: #0056b3;
+    }
+
+/* Hộp chat */
+#chat-box {
+    position: fixed;
+    bottom: 80px; /* Để cách nút chat */
+    left: 20px;
+    width: 300px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 1000;
+}
+
+/* Header chat */
+.chat-header {
+    background: #007bff;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .chat-header button {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+/* Nội dung chat */
+#chat-messages {
+    padding: 10px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+/* Ô nhập */
+#chat-text {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+/* Nút gửi */
+#send-chat {
+    width: 100%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Hiệu ứng hiển thị chat */
+.show-chat {
+    display: flex !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+}
+
+/* giao dine thanh dang ky */
+#subscribeForm .form-control {
+    padding: 12px;
+    font-size: 16px;
+    border: 2px solid #007bff;
+    border-right: none;
+    box-shadow: none;
+    outline: none;
+}
+
+#subscribeForm .btn-primary {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    border: 2px solid #007bff;
+    transition: 0.3s;
+}
+
+    #subscribeForm .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #0056b3;
+    }
+
+#subscribeMessage {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+body {
+    margin: 0;
+    overflow: auto !important;
+    background: #f0f0f0; /* Màu nền trang */
+}
+
+.heart {
+    position: absolute;
+    font-size: 20px;
+    animation: flyUp 2s linear forwards;
+}
+
+@keyframes flyUp {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-100px) scale(1.5);
+    }
+}
+
+/* Màu nền trang css bài báo */
+/* Title section */
+.section-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* Container for all articles */
+.articles-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+/* Individual article card */
+.article-card {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .article-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    }
+
+/* Image for each article */
+.article-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid #eee;
+}
+
+/* Article content */
+.article-content {
+    padding: 15px;
+}
+
+.article-title {
+    font-size: 1.25rem;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+    .article-title a {
+        text-decoration: none;
+        color: inherit;
+    }
+
+        .article-title a:hover {
+            text-decoration: underline;
+        }
+
+.article-description {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+}
+/* Màu nền trang css bài báo */
+
+/* CSS cho menu */
+.navbar {
+    position: relative; /* hoặc fixed nếu muốn nó cố định khi cuộn */
+    z-index: 1000; /* đặt giá trị cao để nó nằm trên banner */
+    background-color: white; /* nếu bị trong suốt thì thêm nền để không bị che */
+}
+/* CSS cho banner */
+.banner {
+    position: relative; /* hoặc absolute nếu nó nằm riêng */
+    z-index: 1; /* giá trị nhỏ hơn menu để nằm dưới */
+}
+
+
+
+

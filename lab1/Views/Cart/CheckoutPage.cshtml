@@ -1,0 +1,143 @@
+﻿@* ThanhToan.cshtml *@
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card shadow-lg p-4" style="max-width: 600px; width: 100%; border-radius: 10px;">
+        <h2 class="text-center mb-4">Hóa Đơn thanh toán</h2>
+
+        @if (!string.IsNullOrEmpty(TempData["ErrorMessage"] as string))
+        {
+            <div class="alert alert-danger d-flex align-items-center">
+                <span class="me-2">❌</span> @TempData["ErrorMessage"]
+            </div>
+        }
+
+        <!-- 🛒 Hiển thị danh sách sản phẩm đã chọn mua -->
+        <h4 class="fw-bold mt-3"> Sản phẩm Đã Chọn</h4>
+        <table class="table table-bordered mt-2">
+            <thead>
+                <tr>
+                    <th>Hình ảnh</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Giá</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.CartItems)
+                {
+                    <tr>
+                        <td>
+                            <img src="@item.Product.ImageUrl" alt="@item.Product.Name" width="60" height="60" style="border-radius: 5px;">
+                        </td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Product.Price.ToString("N0") VNĐ</td>
+                        <td>@((item.Quantity * item.Product.Price).ToString("N0")) VNĐ</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <form method="post" action="/Cart/ProcessCheckout">
+            <div class="mb-3">
+                <label class="form-label fw-bold">Họ và tên</label>
+                <input type="text" class="form-control p-2" name="FullName" required placeholder="Nhập họ và tên">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Địa chỉ giao hàng</label>
+                <input type="text" class="form-control p-2" name="Address" required placeholder="Nhập địa chỉ">
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Số điện thoại</label>
+                <input type="text" class="form-control p-2" name="PhoneNumber" required placeholder="Nhập số điện thoại">
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-bold">Email</label>
+                <input type="email" class="form-control p-2" name="UserEmail" required placeholder="Nhập email của bạn">
+            </div>
+
+           
+
+            <div class="mb-3">
+                <label class="form-label fw-bold">Tổng tiền</label>
+                <input type="text" class="form-control p-2 fw-bold text-danger"
+                       value="@(ViewBag.TotalPrice != null ? ViewBag.TotalPrice.ToString("N0") + " VNĐ" : "0 VNĐ")" readonly>
+            </div>
+            <!-- Chọn phương thức thanh toán -->
+            <div class="payment-options text-center mt-4">
+                <h4 class="fw-bold">💰 Chọn phương thức thanh toán</h4>
+
+                <div class="btn-group mt-3" role="group">
+                    <button id="btnQR" class="btn btn-outline-dark active">Thanh toán qua QR</button>
+                    <button id="btnBank" class="btn btn-outline-dark">Thanh toán qua STK Hoặc Momo</button>
+                </div>
+
+                <!-- Thanh toán qua QR -->
+                <div id="qrPayment" class="qr-payment mt-4">
+                    <h4 class="fw-bold">📷 Thanh toán qua QR</h4>
+                    <p>Quét mã QR dưới đây để thanh toán nhanh:</p>
+                    @if (ViewBag.QRCodeUrl != null)
+                    {
+                        <img src="@ViewBag.QRCodeUrl" alt="QR Code Thanh Toán" width="250" />
+                    }
+
+
+
+
+                    <p><strong>🔔 Lưu ý:</strong> Sau khi thanh toán, hãy chụp màn hình giao dịch để tránh xảy ra sự cố.</p>
+                </div>
+
+                <!-- Thanh toán qua STK/SĐT -->
+                <div id="bankPayment" class="bank-payment mt-4" style="display: none;">
+                    <h4 class="fw-bold">🏦 Thanh toán qua STK Hoặc Momo</h4>
+                    <p><strong>💳 STK Ngân hàng:</strong> 9999910082004 (MB BANK)</p>
+                    <p><strong>📱 Số điện thoại MoMo:</strong> 0987 654 321</p>
+                    <p><strong>🔔 Lưu ý:</strong> Sau khi thanh toán, hãy chụp màn hình giao dịch để tránh xảy ra sự cố.</p>
+                </div>
+
+                <!-- Nút xác nhận thanh toán -->
+                <button id="confirmPayment" class="btn btn-primary w-100 p-2 fw-bold shadow-sm mt-4"
+                        style="border-radius: 8px; transition: 0.3s;">
+                    ✅ Xác nhận đặt hàng
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+<script>
+    document.getElementById("btnQR").addEventListener("click", function() {
+        document.getElementById("qrPayment").style.display = "block";
+        document.getElementById("bankPayment").style.display = "none";
+        this.classList.add("active");
+        document.getElementById("btnBank").classList.remove("active");
+    });
+
+    document.getElementById("btnBank").addEventListener("click", function() {
+        document.getElementById("qrPayment").style.display = "none";
+        document.getElementById("bankPayment").style.display = "block";
+        this.classList.add("active");
+        document.getElementById("btnQR").classList.remove("active");
+    });
+</script>
+
+<style>
+    .qr-payment {
+        border-top: 1px solid #eee;
+        padding-top: 20px;
+    }
+
+    .qr-code {
+        max-width: 200px;
+        height: auto;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 5px;
+    }
+</style>

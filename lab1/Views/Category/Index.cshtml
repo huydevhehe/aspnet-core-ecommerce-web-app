@@ -1,0 +1,39 @@
+﻿@model IEnumerable<lab1.Models.Category>
+
+<div class="container mt-4">
+    <h2 class="mb-4 text-center text-primary"><i class="fas fa-list"></i> Danh Mục Sản Phẩm</h2>
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <span class="fw-semibold text-muted">Có @Model.Count() danh mục</span>
+        <a asp-action="Add" class="btn btn-success">
+            <i class="fas fa-plus-circle"></i> Thêm Danh Mục
+        </a>
+    </div>
+
+    <div class="table-responsive shadow-lg">
+        <table class="table table-hover table-bordered text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th>Tên Danh Mục</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model)
+                {
+                    <tr>
+                        <td class="align-middle">@category.Name</td>
+                        <td class="align-middle">
+                            <a asp-action="Update" asp-route-id="@category.Id" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i> Chỉnh Sửa
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i> Xóa
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

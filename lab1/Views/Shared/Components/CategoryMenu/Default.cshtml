@@ -1,0 +1,12 @@
+﻿@model List<Category>
+
+<label for="categoryDropdown" class="form-label">Danh mục</label>
+<select id="categoryDropdown" class="form-select" onchange="location = this.value;">
+    <option selected>Chọn danh mục</option>
+    @foreach (var category in Model)
+    {
+        <option value="@Url.Action("GetProductsByCategory", "Product", new { categoryId = category.Id })">
+            @category.Name
+        </option>
+    }
+</select>

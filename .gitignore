@@ -1,0 +1,10 @@
+# Ignore Visual Studio files
+.vs
+# Ignore build directories
+bin
+obj
+# Ignore solution files
+.suo
+.user
+.userosscache
+.sln.docstates
